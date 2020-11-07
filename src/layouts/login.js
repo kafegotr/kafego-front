@@ -28,10 +28,16 @@ const Login = (props) => {
   return (
       <div>
         <Master />
-        <div className="container mt-5">
-          <form>
-           <div>
-              <div className="form-group">
+        <div className="text-center mt-5 !important">
+            <p
+                className="text-center"
+                style={{ fontWeight: '600', fontSize: '17px' }}
+            >Giriş Yap</p>
+            <form
+             className="pt-0"
+            >
+          <div className="container position-relaative mt-5!important">
+              <div className="form-group text-center!important">
                   <input
                       onChange={e => setUsername(e.target.value)}
                       value={ username }
@@ -52,14 +58,14 @@ const Login = (props) => {
                       placeholder="Şifre"
                 />
               </div>
-              <div className="text-center">
-                  <button
-                      type="submit"
-                      className="center btn btn-warning"
-                      style={{ color: 'white', width: '10rem' }}
-                      onClick={ onSubmit }
-                  >Gönder</button>
-              </div>
+          </div>
+          <div className="text-center">
+              <button
+                  type="submit"
+                  className="center btn btn-warning mt-3"
+                  style={{ color: 'white', width: '10rem' }}
+                  onClick={ onSubmit }
+              >Gönder</button>
           </div>
         </form>
      </div>

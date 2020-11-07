@@ -26,6 +26,7 @@
        "no-return-await": "off",
        "camelcase": "off",
        "import/extension": "off",
-       "react-hooks/rules-of-hooks": "off"
+       "react-hooks/rules-of-hooks": "off",
+       "no-unused-expressions": "off"
     }
 }

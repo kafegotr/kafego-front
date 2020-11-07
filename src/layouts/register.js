@@ -2,34 +2,57 @@ import React, { useState } from 'react';
 // components
 import Header from '../components/header';
 
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 
-const LOGIN = gql`
-  mutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      uuid
+const GET_USERS = gql`
+  query {
+    users {
+        uuid
+        fullname
+        email
+        username
+        password
+        role
+        photo
+    }
+  }
+`;
+
+
+const REGISTER = gql`
+  mutation($fullname: String!, $email: String!, $username: String!, $password: String!) {
+    register(fullname: $fullname, email: $email, username: $username, password: $password) {
+      fullname
+      email
       username
     }
   }
 `;
 
 const Register = (props) => {
-  const [username, setUsername] = useState('');
   const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [login, { data }] = useMutation(LOGIN);
+  const { loading, error, datas } = useQuery(GET_USERS);
+  const [register, { data }] = useMutation(REGISTER);
 
         const onSubmit = (e) => {
-         login({
-          variables: { username, password }
-         });
-            alert('istek gitti');
-        alert(
-         login({
-          variables: { username, password }
-         })
-        );
+          e.preventDefault();
+          /*
+          datas.users.map(({ username }) => {
+            alert(username);
+          });
+          */
+          register({
+            variables: { fullname, email, username, password }
+          });
+          if(true) {
+            alert('Kayıt başarılı');
+          } else if (!true){
+            alert('Kayıt başarısız');
+          }
+          props.history.push("/giris-yap");
         };
 
   return (
