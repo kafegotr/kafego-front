@@ -4,6 +4,7 @@ import Header from './components/header';
 import SubmitButton from './components/submitButton';
 // layouts
 import Master from './layouts/master';
+import Home from './layouts/home';
 import Login from './layouts/login';
 import Register from './layouts/register';
 
@@ -22,7 +23,7 @@ const App = (props) => {
     <div>
       <Router>
         <Switch>
-          <Route exact path="/" component={Master} />
+          <Route exact path="/" component={Home} />
           <Route path="/giris-yap" component={Login} />
           <Route path="/kaydol" component={Register} />
           <Redirect to="/" />

@@ -47,20 +47,6 @@ const UserViewer = () => {
         </div>
       </div>
     ) : (
-      /*
-    <div className="container mt-5 overflow-auto" key={ user.username }>
-      <div className="flex-sm-row!important" style={{ width: '15rem' }}>
-        <div>
-          <img className="card-img-top" style={{ borderRadius: "10px", width: "250px", height: "200px" }} src={ user.photo } alt="Card image cap" />
-        </div>
-        <div className="card-body">
-          <h5 className="card-title">{ user.fullname }</h5>
-          <h5 className="card-title">{ user.username }</h5>
-          <p className="card-text">{ user.role }</p>
-        </div>
-      </div>
-    </div>
-    */
       <div></div>
     )
   );
