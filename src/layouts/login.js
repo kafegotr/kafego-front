@@ -36,7 +36,7 @@ const Login = (props) => {
     console.log(response);
     setUsername("");
     setPassword("");
-    props.history.push("/kaydol");
+    props.history.push("/me");
   };
 
   const showPassword = (e) => {

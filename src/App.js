@@ -7,6 +7,7 @@ import Master from './layouts/master';
 import Home from './layouts/home';
 import Login from './layouts/login';
 import Register from './layouts/register';
+import Me from './layouts/me';
 
 import {
   BrowserRouter as Router,
@@ -26,6 +27,7 @@ const App = (props) => {
           <Route exact path="/" component={Home} />
           <Route path="/giris-yap" component={Login} />
           <Route path="/kaydol" component={Register} />
+          <Route path="/me" component={Me} />
           <Redirect to="/" />
         </Switch>
       </Router>
