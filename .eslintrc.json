@@ -27,6 +27,6 @@
        "camelcase": "off",
        "import/extension": "off",
        "react-hooks/rules-of-hooks": "off",
-       "no-unused-expressions": "off"
+       "no-unused-expressions": "off",
     }
 }

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Header from "../components/header";
 import Master from "../layouts/master";
 
+import jwt, { sign } from 'jsonwebtoken';
+
 // Font Awasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +12,7 @@ import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 //colors
 import colors from "../static/colors/colors";
 
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const LOGIN = gql`
   mutation($username: String!, $password: String!) {
@@ -30,14 +32,14 @@ const Login = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const response = login({
-      variables: { username, password },
-    });
-    console.log(response);
-    setUsername("");
-    setPassword("");
-    props.history.push("/me");
+      const response = login({
+        variables: { username, password },
+      });
+      setUsername("");
+      setPassword("");
+      props.history.push("/me");
   };
+
 
   const showPassword = (e) => {
     e.preventDefault();

@@ -1,7 +1,4 @@
 import React from 'react';
-// components
-import Header from './components/header';
-import SubmitButton from './components/submitButton';
 // layouts
 import Master from './layouts/master';
 import Home from './layouts/home';
