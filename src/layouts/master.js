@@ -8,7 +8,7 @@ const Master = (props) => {
 
   return (
     <div>
-      <Header />
+        <Header />
     </div>
   );
 }

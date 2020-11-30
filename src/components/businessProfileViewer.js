@@ -31,7 +31,7 @@ const TOKEN = gql`
 
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/rules-of-hooks */
-const MeViewer = () => {
+const BusinessProfileViewer = () => {
 const queryMultiple = () => {
   const res1 = useQuery(GET_USERS);
   const res2 = useQuery(TOKEN);
@@ -58,6 +58,7 @@ const [
 
   return (
       <div className="container mt-5 overflow-auto">
+          <p>Business Profile</p>
         <div className="column">
           <div className="column col-12 mb-3">
             <div className="card flex-xl-row p-1">
@@ -74,4 +75,4 @@ const [
   )
 };
 
-export default MeViewer;
+export default BusinessProfileViewer;

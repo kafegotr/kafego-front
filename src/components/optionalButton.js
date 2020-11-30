@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
+import { addressSelecty } from "../static/addressSelect/addressSelecty";
 
 const GET_USERS = gql`
   query {
@@ -33,27 +34,24 @@ const OptionalButton = () => {
   return (
     <div className="mt-2">
       <div
-        class="btn-group"
+        className="btn-group"
         role="group"
         aria-label="Button group with nested dropdown"
       >
-        <div class="btn-group" role="group">
+        <div className="btn-group" role="group">
           <button
             id="btnGroupDrop1"
             type="button"
-            class="btn btn-secondary dropdown-toggle"
+            className="btn btn-secondary dropdown-toggle"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
             İl Seç
           </button>
-          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#">
-              Dropdown link
-            </a>
-            <a class="dropdown-item" href="#">
-              Dropdown link
+          <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a className="dropdown-item" href="#">
+              { addressSelecty.map(e => e.name) }
             </a>
           </div>
         </div>
@@ -63,24 +61,24 @@ const OptionalButton = () => {
         role="group"
         aria-label="Button group with nested dropdown"
       >
-        <div class="btn-group" role="group">
+        <div className="btn-group" role="group">
           <button
             id="btnGroupDrop1"
             type="button"
-            class="btn btn-secondary ml-2 dropdown-toggle"
+            className="btn btn-secondary ml-2 dropdown-toggle"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
             İlçe Seç
           </button>
-          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#">
-              Dropdown link
-            </a>
-            <a class="dropdown-item" href="#">
-              Dropdown link
-            </a>
+          <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              { addressSelecty.map(e => 
+                <a className="dropdown-item" href="#">
+                  {e.counties}
+                </a>
+              )
+            }
           </div>
         </div>
       </div>

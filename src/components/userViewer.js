@@ -27,12 +27,12 @@ const UserViewer = () => {
 
   return data.users.map((user, index) =>
     user.role === "business" ? (
-      <div className="container mt-5 overflow-auto">
+      <div className="container mt-5 overflow-auto" key={ user.uuid }>
         <div className="column">
           <div className="column col-12 mb-3">
             <div className="card flex-xl-row p-1">
               <img className="card-img-top" style={{ borderRadius: "10px", width: "200px", height: "150px" }} src={ user.photo } alt="Card image cap" />
-              <div className="card-body flex-xl-12">
+              <div className="card-body flex-xl-12" key={ user.username }>
                 <h5 className="card-title">{ user.fullname }</h5>
                 <h5 className="card-title">{ user.username }</h5>
                 <p className="card-text">{ user.role }</p>

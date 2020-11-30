@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
+import Master from "../layouts/master";
 
-import { gql, useMutation, useQuery } from "@apollo/client";
+import jwt, { sign } from "jsonwebtoken";
+
 // Font Awasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
@@ -11,67 +15,44 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 //colors
 import colors from "../static/colors/colors";
 
-const GET_USERS = gql`
-  query {
-    users {
+import { gql, useMutation, useQuery } from "@apollo/client";
+
+const LOGIN = gql`
+  mutation($username: String!, $password: String!) {
+    loginBusiness(username: $username, password: $password) {
       uuid
-      fullname
-      email
       username
-      password
       role
-      photo
+      ok
     }
   }
 `;
 
-const REGISTER = gql`
-  mutation(
-    $fullname: String!
-    $email: String!
-    $username: String!
-    $password: String!
-  ) {
-    register(
-      fullname: $fullname
-      email: $email
-      username: $username
-      password: $password
-    ) {
-      fullname
-      email
-      username
-    }
-  }
-`;
-
-const Register = (props) => {
+const BusinessLogin = (props) => {
   const history = useHistory();
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [textPassword, setTextPassword] = useState("password");
   const [showPasswordState, setShowPasswordState] = useState(faEyeSlash);
-  const { loading, error, datas } = useQuery(GET_USERS);
-  const [register, { data }] = useMutation(REGISTER);
+  const [loginBusiness, { loading, error, data }] = useMutation(LOGIN);
+
+  if (loading) return <p>Loading</p>;
 
   const onSubmit = (e) => {
     e.preventDefault();
-    /*
-          datas.users.map(({ username }) => {
-            alert(username);
-          });
-          */
-    register({
-      variables: { fullname, email, username, password },
+    const response = loginBusiness({
+      variables: { username, password },
     });
-    if (true) {
-      alert("Kayıt başarılı");
-    } else if (!true) {
-      alert("Kayıt başarısız");
-    }
-    history.push("/giris-yap");
+    response
+      .then(({}) => {
+          history.push("/");
+      })
+      .catch((err) => {
+        alert("Lütfen giriş bilgilerinizi kontrol ediniz");
+        alert(err);
+      });
+    setUsername("");
+    setPassword("");
   };
 
   const showPassword = (e) => {
@@ -79,20 +60,20 @@ const Register = (props) => {
     textPassword == "password"
       ? setTextPassword("text")
       : setTextPassword("password");
-      showPasswordState == faEyeSlash
+    showPasswordState == faEyeSlash
       ? setShowPasswordState(faEye)
       : setShowPasswordState(faEyeSlash);
   };
 
   return (
     <div>
-      <Header />
+      <Master />
       <div className="text-center mt-5">
         <p
           className="text-center"
           style={{ fontWeight: "600", fontSize: "17px" }}
         >
-          Kaydol
+          Mekan Hesabına Giriş Yap
         </p>
         <form className="pt-0">
           <div 
@@ -101,33 +82,14 @@ const Register = (props) => {
           >
             <div className="form-group text-center!important">
               <input
-                onChange={(e) => setFullname(e.target.value)}
-                value={fullname}
-                type="fullname"
-                id="inputFullname"
-                className="form-control"
-                placeholder="Ad Soyad"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                type="email"
-                id="inputEmail"
-                className="form-control"
-                placeholder="E-Posta"
-              />
-            </div>
-            <div className="form-group">
-              <input
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
+                className="form-control"
                 type="username"
                 id="inputUsername"
-                className="form-control"
                 aria-describedby="usernameHelp"
                 placeholder="Kullanıcı adı"
+                required="required"
               />
             </div>
             <div
@@ -135,13 +97,14 @@ const Register = (props) => {
               id="show_hide_password"
             >
               <input
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 className="form-control"
                 placeholder="Şifre"
                 type={textPassword}
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                aria-describedby="passwordHelp"
                 id="inputPassword"
-                placeholder="Şifre"
+                required="required"
               />
               <div className="input-group-addon">
                 <div className="mt-0 ml-2">
@@ -159,17 +122,17 @@ const Register = (props) => {
               type="submit"
               className="center btn btn-warning mt-3 btn-lg w-30"
               style={{
-                color: colors.white,
-                width: "400px",
                 backgroundColor: colors.yellow,
                 border: "none",
+                color: colors.white,
+                width: "400px",
               }}
               onClick={onSubmit}
             >
               Gönder
             </button>
             <p className="mt-3">
-              Hesabın varsa <a href="/giris-yap">giriş yap</a>
+              Hesabın yoksa <a href="/kaydol">kaydol</a>
             </p>
           </div>
         </form>
@@ -178,4 +141,10 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+const styles = {
+  container: {
+    backgroundColor: "black",
+  },
+};
+
+export default BusinessLogin;

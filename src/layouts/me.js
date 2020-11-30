@@ -6,7 +6,7 @@ import UserViewer from '../components/userViewer';
 import OptionalButton from '../components/optionalButton';
 import { setContext } from '@apollo/client/link/context';
 
-const Home = (props, req) => {
+const Me = (props, req) => {
 
   return (
     <div>
@@ -16,4 +16,4 @@ const Home = (props, req) => {
   );
 }
 
-export default Home;
+export default Me;

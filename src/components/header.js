@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import { useQuery, useMutation, gql } from "@apollo/client";
+import Cookies from "universal-cookie";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useHistory,
-} from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const Header = (props) => {
+import { BrowserRouter as Router, useHistory } from "react-router-dom";
+
+const LOGOUT = gql`
+  mutation {
+    logout
+  }
+`;
+
+const TOKEN = gql`
+  query {
+    token {
+      token
+      refreshToken
+      ok
+    }
+  }
+`;
+
+const Header = (props, req) => {
+  const { loading, error, data } = useQuery(TOKEN);
+  const [logout, { loading1, data1 }] = useMutation(LOGOUT);
+  const history = useHistory();
+  const cookies = new Cookies();
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error</p>;
+  if (loading1) return <p>Loading1</p>;
+
+  const logoutButton = (e) => {
+    e.preventDefault();
+    const response = logout({});
+    data.token.refreshToken ? history.push("/") : history.push("/kaydol");
+  };
+
   return (
     <div>
       <nav
@@ -53,43 +81,67 @@ const Header = (props) => {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Bize Katılın
+                {data.token.refreshToken ? "Profilim" : "Bize Katılın"}
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/giris-yap">
-                  Giriş Yap
+                <a
+                  className="dropdown-item"
+                  href={data.token.refreshToken ? "/profilim" : "/giris-yap"}
+                >
+                  {data.token.refreshToken ? "Profile git" : "Giriş Yap"}
                 </a>
-                <a className="dropdown-item" href="/kaydol">
-                  Kaydol
+                <a
+                  className="dropdown-item"
+                  onClick={logoutButton}
+                  href={data.token.refreshToken ? "/" : "/kaydol"}
+                >
+                  {data.token.refreshToken ? "Çıkıp Yap" : "Kaydol"}
                 </a>
               </div>
             </li>
           </ul>
-          <form className="form-inline my-2 my-lg-0">
+          <div
+            style={styles.inputWithButton}
+            className=""
+          >
             <input
-              className="form-control mr-sm-0"
-              style={{ paddingRight: "50px" }}
+              //className="form-control"
+              style={ styles.searchInput }
               type="search"
               placeholder="Hangi kafeye bakmıştın ?"
               aria-label="Search"
-            />
+            ></input>
             <button
-              className="btn btn-outline-success my-2 my-sm-0"
+              //className="btn btn-outline-success my-2 my-sm-0"
               type="submit"
+              style={styles.searchButton}
             >
-              Ara
+              <FontAwesomeIcon icon={faSearch} />
             </button>
-          </form>
+          </div>
         </div>
       </nav>
     </div>
   );
 };
-/*
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'yellow',
+const styles = {
+  inputWithButton: {
+    borderRadius: '5px',
+    height: '2rem',
+    width: '15rem',
+    background: 'white'
   },
-});
-*/
+  searchButton: {
+    background: "white",
+    border: "none",
+  },
+  searchInput: {
+    outline: 'none',
+    border: 'none',
+    width: '13rem',
+    borderRadius: '5px',
+    paddingLeft: '10px',
+    paddingTop: '2px',
+  }
+};
 export default Header;

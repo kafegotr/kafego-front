@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
 import Master from "../layouts/master";
+import Footer from "../components/footer";
 
-import jwt, { sign } from 'jsonwebtoken';
+import jwt, { sign } from "jsonwebtoken";
 
 // Font Awasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 //colors
 import colors from "../static/colors/colors";
@@ -20,34 +24,46 @@ const LOGIN = gql`
       uuid
       username
       role
+      ok
     }
   }
 `;
 
 const Login = (props) => {
+  const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [textPassword, setTextPassword] = useState("password");
-  const [login, { data }] = useMutation(LOGIN);
+  const [showPasswordState, setShowPasswordState] = useState(faEyeSlash);
+  const [login, { loading, error, data }] = useMutation(LOGIN);
+
+  if (loading) return <p>Loading</p>;
 
   const onSubmit = (e) => {
     e.preventDefault();
-      const response = login({
-        variables: { username, password },
+    const response = login({
+      variables: { username, password },
+    });
+    response
+      .then(({}) => {
+          history.push("/");
+      })
+      .catch((err) => {
+        alert("Lütfen giriş bilgilerinizi kontrol ediniz");
       });
-      setUsername("");
-      setPassword("");
-      props.history.push("/me");
+    setUsername("");
+    setPassword("");
   };
-
 
   const showPassword = (e) => {
     e.preventDefault();
     textPassword == "password"
       ? setTextPassword("text")
       : setTextPassword("password");
+    showPasswordState == faEyeSlash
+      ? setShowPasswordState(faEye)
+      : setShowPasswordState(faEyeSlash);
   };
-
 
   return (
     <div>
@@ -60,16 +76,20 @@ const Login = (props) => {
           Giriş Yap
         </p>
         <form className="pt-0">
-          <div className="container mr-4">
+          <div 
+            className="container"
+            style={{ width: '26rem' }}
+          >
             <div className="form-group text-center!important">
               <input
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
-                className="form-control col-md-4"
+                className="form-control"
                 type="username"
                 id="inputUsername"
                 aria-describedby="usernameHelp"
                 placeholder="Kullanıcı adı"
+                required="required"
               />
             </div>
             <div
@@ -79,17 +99,18 @@ const Login = (props) => {
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                className="form-control col-md-4"
+                className="form-control"
                 placeholder="Şifre"
                 type={textPassword}
                 aria-describedby="passwordHelp"
                 id="inputPassword"
+                required="required"
               />
               <div className="input-group-addon">
                 <div className="mt-0 ml-2">
                   <button onClick={showPassword} className="btn btn-light">
                     <a href="">
-                      <FontAwesomeIcon icon={faEyeSlash} />
+                      <FontAwesomeIcon icon={showPasswordState} />
                     </a>
                   </button>
                 </div>
@@ -115,6 +136,9 @@ const Login = (props) => {
             </p>
           </div>
         </form>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
