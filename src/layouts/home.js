@@ -5,6 +5,7 @@ import Header from "../components/header";
 import UserViewer from "../components/userViewer";
 import Footer from "../components/footer";
 import OptionalButton from "../components/optionalButton";
+import Button from "../components/button";
 import AddressViewer from "../components/addressViewer";
 
 import { useQuery, gql } from "@apollo/client";
@@ -29,7 +30,6 @@ const Home = (props) => {
       <Header />
       <div className="container" key={data.token.refreshToken}>
         <p className="float-right mt-2 mr-5">Tüm Mekanlar</p>
-        <OptionalButton />
       </div >
       <UserViewer />
       <div>
