@@ -13,7 +13,7 @@ const Business = (props) => {
     <div>
       <Header />
       <div className="container">
-        <p className="float-right mt-2 mr-5">Business</p>
+        Mekan
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import Header from "../components/header";
 import UserViewer from "../components/userViewer";
 import Footer from "../components/footer";
 import OptionalButton from "../components/optionalButton";
+import AddressViewer from "../components/addressViewer";
 
 import { useQuery, gql } from "@apollo/client";
 

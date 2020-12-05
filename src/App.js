@@ -1,5 +1,6 @@
 /* eslint-disable import/first */
 /* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-unused-expressions */
 import React from "react";
 // layouts
 import Master from "./layouts/master";
@@ -10,6 +11,7 @@ import Me from "./layouts/me";
 import Business from "./layouts/business";
 import BusinessProfile from "./layouts/businessProfile";
 import BusinessLogin from "./layouts/businessLogin";
+import Button from "./components/button";
 import Authorization from "./apollo/isAuth";
 
 import { useQuery, gql } from "@apollo/client";
@@ -38,7 +40,7 @@ const App = (props) => {
   const { loading, error, data } = useQuery(TOKEN);
   if (loading) return <p>Loading</p>;
   if (error) return alert(error);
-  
+
   const PrivateRoute = ({ component: Component, ...rest }) => {
     let pathDouble = "/giris-yap" || "/kaydol";
     return (
@@ -80,6 +82,21 @@ const App = (props) => {
           />
           <Route
             exact
+            path="/mekan/mekan-giris-yap"
+            render={(props) =>
+              !data.token.refreshToken ? (
+                <BusinessLogin />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: "/",
+                  }}
+                />
+              )
+            }
+          />
+          <Route
+            exact
             path="/giris-yap"
             render={(props) =>
               !data.token.refreshToken ? (
@@ -97,7 +114,7 @@ const App = (props) => {
             exact
             path="/profilim"
             render={(props) =>
-              data.token.userRole === 'private' ? (
+              data.token.userRole === "private" ? (
                 <Me />
               ) : (
                 <Redirect
@@ -108,8 +125,31 @@ const App = (props) => {
               )
             }
           />
-          <Route exact path="/mekan" component={Business} />
-          <Route exact path="/mekan/mekan-giris-yap" component={BusinessLogin} />
+          <Route
+            exact
+            path="/mekan/profilim"
+            render={(props) =>
+              data.token.userRole === "business" ? (
+                <BusinessProfile />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: "/",
+                  }}
+                />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/mekan/mekan-giris-yap"
+            component={BusinessLogin}
+          />
+          <Route
+            exact
+            path="/button"
+            component={Button}
+          />
           <PrivateRoute path="/" exact component={Home} />
           <Redirect to="/" />
         </Switch>

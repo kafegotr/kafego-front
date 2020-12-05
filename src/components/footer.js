@@ -90,7 +90,7 @@ const Footer = () => {
                     <a href="#">services</a>
                   </li>
                   <li>
-                    <a href="#">portfolio</a>
+                    <a href="/mekan/mekan-giris-yap">Mekan Portalı</a>
                   </li>
                   <li>
                     <a href="#">Contact</a>

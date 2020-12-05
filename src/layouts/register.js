@@ -63,15 +63,17 @@ const Register = (props) => {
             alert(username);
           });
           */
-    register({
+    const registerQuery = register({
       variables: { fullname, email, username, password },
     });
-    if (true) {
-      alert("Kayıt başarılı");
-    } else if (!true) {
-      alert("Kayıt başarısız");
-    }
-    history.push("/giris-yap");
+    registerQuery
+      .then(({}) => {
+        alert('Kayıt tamamlandı.');
+        history.push('/giris-yap');
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const showPassword = (e) => {
