@@ -45,7 +45,8 @@ const BusinessLogin = (props) => {
     });
     response
       .then(({}) => {
-          history.push("/");
+        window.location.reload();
+        history.push("/mekan/profilim");
       })
       .catch((err) => {
         alert("Lütfen giriş bilgilerinizi kontrol ediniz");

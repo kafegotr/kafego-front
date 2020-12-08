@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import Header from "../components/header";
 import UserViewer from "../components/userViewer";
 import Footer from "../components/footer";
-import OptionalButton from "../components/optionalButton";
 import Button from "../components/button";
 import AddressViewer from "../components/addressViewer";
 
@@ -29,7 +28,6 @@ const Home = (props) => {
     <div key={data.token.refreshToken}>
       <Header />
       <div className="container" key={data.token.refreshToken}>
-        <p className="float-right mt-2 mr-5">Tüm Mekanlar</p>
       </div >
       <UserViewer />
       <div>

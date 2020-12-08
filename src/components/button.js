@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { useHistory } from "react-router-dom";
 
+const ADDRESS_REGISTER = gql`
+  mutation($city: String, $county: String) {
+    addressRegister(city: $city, county: $county) {
+       city
+       county
+    }
+  }
+`;
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
@@ -9,13 +18,16 @@ import { useQuery, gql } from "@apollo/client";
 const Button = (props) => {
   var countries = Object();
 
-  countries["İstanbul"] = "Algeria|Angola|Benin|Zimbabwe";
-  countries["İzmir"] = "Algeria|Angola|Benin|Zimbabwe";
-  countries["Kocaeli"] = "Algeria|Angola|Benin|Zimbabwe";
-  countries["Balıkesir"] = "Algeria|Angola|Benin|Zimbabwe";
-  countries["Antalya"] = "Algeria|Angola|Benin|Zimbabwe";
-  countries["Ankara"] = "Amundsen-Scott";
-  countries["Bursa"] = "Bangladesh|Bhutan";
+  countries["İstanbul"] = "Beşiktaş|Taksim|Kadıköy|Kartal";
+  countries["İzmir"] = "Çeşme|Urla|Bornova|Alsancak";
+  countries["Kocaeli"] = "Gebze|İzmit|Gölcük|Derince";
+  countries["Balıkesir"] = "Ayvalık|Akçay|Merkez";
+  countries["Antalya"] = "Kaş|Angola|Benin|Zimbabwe";
+  countries["Ankara"] = "Kızılay|Akyurt|Çankaya";
+  countries["Bursa"] = "Mudurnu|Gemlik";
+
+  const [addressRegister, { loading, error, data }] = useMutation(ADDRESS_REGISTER);
+  const history = useHistory();
 
   useEffect(() => {
     let html = "";
@@ -30,6 +42,7 @@ const Button = (props) => {
   const selectF = () => {
     let a = document.getElementById("region");
     var region = a[a.selectedIndex].text;
+    localStorage.setItem('il', region);
     let ac = document.getElementById("country");
     if (countries[region]) {
       ac.disabled = false;
@@ -40,17 +53,28 @@ const Button = (props) => {
     } else ac.disabled = true;
   }
 
-  const selectCountry = () => {
+  const selectCountry = (props) => {
     let ac = document.getElementById("country");
-    var country = ac.options[ac.selectedIndex].text;
-    console.log(country);
+    var county = ac.options[ac.selectedIndex].text;
+    let city = localStorage.getItem('il');
+    const response = addressRegister({
+        variables: { city, county },
+    });
+      response
+        .then(({}) => {
+            alert('Adres yenilcendi');
+            history.push('/');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
   }
 
   return (
     <div>
       <div>
         <form>
-          <select 
+          <select
             id="region"
             onChange={selectF}
           >

@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
 import UserViewer from "../components/userViewer";
-import OptionalButton from "../components/optionalButton";
 
 import { useQuery, gql } from "@apollo/client";
 

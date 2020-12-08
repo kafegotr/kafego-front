@@ -68,27 +68,66 @@ const MeViewer = () => {
   }
   // localStorage.setItem('asdsad', 'asdsadas');
 
+  const removeDiscountCode = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('discount');
+  };
+
   return (
-    <div className="container mt-5 overflow-auto">
-      <div className="column">
-        <div className="column col-12 mb-3">
-          <div className="card flex-xl-row p-1">
-            <img
-              className="card-img-top"
-              style={{ borderRadius: "10px", width: "200px", height: "150px" }}
-              src={data1.user.photo}
-              alt="Card image cap"
-            />
-            <div className="card-body flex-xl-12">
-              <h5 className="card-title">{data1.user.fullname}</h5>
-              <h5 className="card-title">{data1.user.username}</h5>
-              <p className="card-text">{data1.user.role}</p>
+    <div className="container">
+      <p
+        className="text-center mt-4"
+        style={{ fontWeight: "600", fontSize: "17px" }}
+      >
+        Profilim
+      </p>
+      <div className="container">
+        <div className="container mt-5 d-flex justify-content-center">
+          <div className="card p-3">
+            <div className="d-flex align-items-center">
+              <div className="image">
+                {" "}
+                <img
+                  src={data1.user.photo}
+                  className="rounded"
+                  width="155"
+                />{" "}
+              </div>
+              <div className="ml-3 w-100">
+                <h4 className="mb-0 mt-0">{data1.user.fullname}</h4>{" "}
+                <span>{data1.user.username}</span>
+                <div className="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                  <div className="d-flex flex-column">
+                    {" "}
+                    <span className="articles"></span>{" "}
+                    <span className="number1"></span>{" "}
+                  </div>
+                </div>
+                <div className="button mt-2 d-flex flex-row align-items-center">
+                </div>
+                <div className="button mt-2 d-flex flex-row align-items-center">
+                  {" "}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Button />
+        <div className="mt-2">
+          <Button />
+          <div
+            className="container"
+            style={{
+              background: 'gray',
+              width: '500px',
+              height: '100px'
+            }}
+          >
+            <div>
+              <p className="float-left">{ localStorage.getItem('discount') }</p>
+              <button onClick={ removeDiscountCode } className="float-right">Sil</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

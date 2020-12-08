@@ -18,6 +18,7 @@
         "react"
     ],
     "rules": {
+       "jsx-a11y/anchor-is-valid": "off",
        "no-console": "off",
        "eslint-disable-next-line": "off",
        "import/prefer-default-export": "off",

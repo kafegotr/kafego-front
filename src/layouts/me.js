@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Header from '../components/header';
 import MeViewer from '../components/meViewer';
 import UserViewer from '../components/userViewer';
-import OptionalButton from '../components/optionalButton';
 import { setContext } from '@apollo/client/link/context';
 
 const Me = (props, req) => {

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -30,6 +31,7 @@ const LOGIN = gql`
 `;
 
 const Login = (props) => {
+  const [isLogin, setIsLogin] = useState(false);
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -46,7 +48,8 @@ const Login = (props) => {
     });
     response
       .then(({}) => {
-          history.push("/");
+          setIsLogin(true);
+          isLogin ? window.location.reload() : window.location.reload();
       })
       .catch((err) => {
         alert("Lütfen giriş bilgilerinizi kontrol ediniz");
@@ -76,7 +79,7 @@ const Login = (props) => {
           Giriş Yap
         </p>
         <form className="pt-0">
-          <div 
+          <div
             className="container"
             style={{ width: '26rem' }}
           >

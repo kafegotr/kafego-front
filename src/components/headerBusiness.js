@@ -23,8 +23,7 @@ const TOKEN = gql`
   }
 `;
 
-const Header = (props, req) => {
-  const [isLogin, setIsLogin] = useState(true);
+const HeaderBusiness = (props, req) => {
   const { loading, error, data } = useQuery(TOKEN);
   const [logout, { loading1, data1 }] = useMutation(LOGOUT);
   const history = useHistory();
@@ -36,8 +35,7 @@ const Header = (props, req) => {
   const logoutButton = (e) => {
     e.preventDefault();
     const response = logout({});
-    setIsLogin(false);
-    window.location.reload();
+    data.token.refreshToken ? history.push("/") : history.push("/kaydol");
   };
 
   return (
@@ -69,9 +67,6 @@ const Header = (props, req) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/">
-                Anasayfa <span className="sr-only">(current)</span>
-              </a>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -88,7 +83,7 @@ const Header = (props, req) => {
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a
                   className="dropdown-item"
-                  href={data.token.refreshToken ? "/profilim" : "/giris-yap"}
+                  href={data.token.refreshToken ? "/mekan/profilim" : "/giris-yap"}
                 >
                   {data.token.refreshToken ? "Profile git" : "Giriş Yap"}
                 </a>
@@ -102,25 +97,6 @@ const Header = (props, req) => {
               </div>
             </li>
           </ul>
-          <div
-            style={styles.inputWithButton}
-            className=""
-          >
-            <input
-              //className="form-control"
-              style={ styles.searchInput }
-              type="search"
-              placeholder="Hangi kafeye bakmıştın ?"
-              aria-label="Search"
-            ></input>
-            <button
-              //className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-              style={styles.searchButton}
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
         </div>
       </nav>
     </div>
@@ -146,4 +122,4 @@ const styles = {
     paddingTop: '2px',
   }
 };
-export default Header;
+export default HeaderBusiness;

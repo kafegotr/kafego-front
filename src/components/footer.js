@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import "../App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-//
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/rules-of-hooks */
 const Footer = () => {
