@@ -227,11 +227,6 @@ const BusinessProfileViewer = () => {
                   </div>
                 </div>
                 <div className="button mt-2 d-flex flex-row align-items-center">
-                  <a
-                    href={data1.user.address_direct}
-                  >Yol tarifi al</a>
-                </div>
-                <div className="button mt-2 d-flex flex-row align-items-center">
                   {" "}
                   <input
                     placeholder="Kodu Girin"

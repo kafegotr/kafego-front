@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
+import Footer from "../components/footer";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 // Font Awasome
@@ -58,18 +59,13 @@ const Register = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    /*
-          datas.users.map(({ username }) => {
-            alert(username);
-          });
-          */
     const registerQuery = register({
       variables: { fullname, email, username, password },
     });
     registerQuery
       .then(({}) => {
-        alert('Kayıt tamamlandı.');
-        history.push('/giris-yap');
+        alert("Kayıt tamamlandı.");
+        history.push("/giris-yap");
       })
       .catch((err) => {
         alert(err);
@@ -81,15 +77,21 @@ const Register = (props) => {
     textPassword == "password"
       ? setTextPassword("text")
       : setTextPassword("password");
-      showPasswordState == faEyeSlash
+    showPasswordState == faEyeSlash
       ? setShowPasswordState(faEye)
       : setShowPasswordState(faEyeSlash);
   };
 
   return (
-    <div>
+    <div
+    >
       <Header />
-      <div className="text-center mt-5">
+      <div
+        className="text-center mt-5"
+        style={{
+          height: "1000px",
+        }}
+      >
         <p
           className="text-center"
           style={{ fontWeight: "600", fontSize: "17px" }}
@@ -97,10 +99,7 @@ const Register = (props) => {
           Kaydol
         </p>
         <form className="pt-0">
-          <div 
-            className="container"
-            style={{ width: '26rem' }}
-          >
+          <div className="container" style={{ width: "26rem" }}>
             <div className="form-group text-center!important">
               <input
                 onChange={(e) => setFullname(e.target.value)}
@@ -175,6 +174,9 @@ const Register = (props) => {
             </p>
           </div>
         </form>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );

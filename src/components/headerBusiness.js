@@ -35,7 +35,7 @@ const HeaderBusiness = (props, req) => {
   const logoutButton = (e) => {
     e.preventDefault();
     const response = logout({});
-    data.token.refreshToken ? history.push("/") : history.push("/kaydol");
+    window.location.reload();
   };
 
   return (

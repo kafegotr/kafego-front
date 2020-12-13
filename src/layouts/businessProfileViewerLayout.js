@@ -4,21 +4,19 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
-import UserViewer from "../components/userViewer";
+import GetBusinessProfile from "../components/getBusinessProfile";
 import Footer from "../components/footer";
-import Button from "../components/button";
-import AddressViewer from "../components/addressViewer";
 
-const Home = (props) => {
+const BusinessProfileViewerLayout = (props) => {
   let history = useHistory();
   
   return (
     <div>
       <Header />
-      <UserViewer />
+      <GetBusinessProfile />
       <Footer />
     </div>
   );
 };
 
-export default Home;
+export default BusinessProfileViewerLayout;

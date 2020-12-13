@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, gql, useMutation } from "@apollo/client";
 //
 import Authorization from "../apollo/isAuth";
 import Button from "./button";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const GET_USERS = gql`
   query {
@@ -44,6 +47,10 @@ const LOGIN = gql`
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/rules-of-hooks */
 const MeViewer = () => {
+  // GOLD
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  //
   const [login, { loading, error, data }] = useMutation(LOGIN);
   const queryMultiple = () => {
     const res1 = useQuery(GET_USERS);
@@ -67,14 +74,21 @@ const MeViewer = () => {
     <p>error</p>;
   }
   // localStorage.setItem('asdsad', 'asdsadas');
+  let discount = localStorage.getItem("discount");
 
   const removeDiscountCode = (e) => {
     e.preventDefault();
-    localStorage.removeItem('discount');
+    localStorage.removeItem("discount");
+    forceUpdate();
   };
 
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{
+        height: "1000px",
+      }}
+    >
       <p
         className="text-center mt-4"
         style={{ fontWeight: "600", fontSize: "17px" }}
@@ -103,8 +117,7 @@ const MeViewer = () => {
                     <span className="number1"></span>{" "}
                   </div>
                 </div>
-                <div className="button mt-2 d-flex flex-row align-items-center">
-                </div>
+                <div className="button mt-2 d-flex flex-row align-items-center"></div>
                 <div className="button mt-2 d-flex flex-row align-items-center">
                   {" "}
                 </div>
@@ -117,14 +130,43 @@ const MeViewer = () => {
           <div
             className="container"
             style={{
-              background: 'gray',
-              width: '500px',
-              height: '100px'
+              background: "#eceff3",
+              width: "500px",
+              height: "100px",
+              marginTop: "2rem",
+              marginBottom: "2rem",
+              borderRadius: "5px",
             }}
           >
             <div>
-              <p className="float-left">{ localStorage.getItem('discount') }</p>
-              <button onClick={ removeDiscountCode } className="float-right">Sil</button>
+              <div>
+                <p
+                  style={{
+                    fontWeight: "600",
+                  }}
+                  className="container"
+                >
+                  Bildirimler
+                </p>
+                <div className="float-left">
+                  {
+                    discount !== null ? discount : 'Bildirim yok'
+                  }
+                  <button
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      marginLeft: '5rem',
+                      marginTop: '-4px',
+                      display: discount !== null ? 'block' : 'none' 
+                    }}
+                    onClick={removeDiscountCode}
+                    className="float-right"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

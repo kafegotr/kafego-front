@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
-import Master from "../layouts/master";
 import Footer from "../components/footer";
 
 import jwt, { sign } from "jsonwebtoken";
@@ -19,6 +18,8 @@ import colors from "../static/colors/colors";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 
+
+
 const LOGIN = gql`
   mutation($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -26,6 +27,15 @@ const LOGIN = gql`
       username
       role
       ok
+    }
+  }
+`;
+
+const ADDRESS_REGISTER = gql`
+  mutation($city: String, $county: String) {
+    addressRegister(city: $city, county: $county) {
+      city
+      county
     }
   }
 `;
@@ -40,6 +50,7 @@ const Login = (props) => {
   const [login, { loading, error, data }] = useMutation(LOGIN);
 
   if (loading) return <p>Loading</p>;
+  if (error) return <p>Error</p>
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -48,8 +59,7 @@ const Login = (props) => {
     });
     response
       .then(({}) => {
-          setIsLogin(true);
-          isLogin ? window.location.reload() : window.location.reload();
+        window.location.reload();
       })
       .catch((err) => {
         alert("Lütfen giriş bilgilerinizi kontrol ediniz");
@@ -69,9 +79,14 @@ const Login = (props) => {
   };
 
   return (
-    <div>
-      <Master />
-      <div className="text-center mt-5">
+    <div
+    >
+      <Header />
+      <div className="text-center mt-5"
+        style={{
+          height: '1000px'
+        }}
+      >
         <p
           className="text-center"
           style={{ fontWeight: "600", fontSize: "17px" }}
@@ -79,10 +94,7 @@ const Login = (props) => {
           Giriş Yap
         </p>
         <form className="pt-0">
-          <div
-            className="container"
-            style={{ width: '26rem' }}
-          >
+          <div className="container" style={{ width: "26rem" }}>
             <div className="form-group text-center!important">
               <input
                 onChange={(e) => setUsername(e.target.value)}

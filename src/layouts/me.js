@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Header from '../components/header';
 import MeViewer from '../components/meViewer';
 import UserViewer from '../components/userViewer';
+import Footer from "../components/footer";
 import { setContext } from '@apollo/client/link/context';
 
 const Me = (props, req) => {
@@ -11,6 +12,7 @@ const Me = (props, req) => {
     <div>
       <Header />
       <MeViewer />
+      <Footer />
     </div>
   );
 }

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
-import Master from "../layouts/master";
 
 import jwt, { sign } from "jsonwebtoken";
 
@@ -25,6 +24,14 @@ const LOGIN = gql`
       role
       ok
     }
+    }
+`;
+
+const FULLNESS_PERCENT_UPDATE = gql`
+  mutation($percent: String!) {
+    fullnessPercentUpdate(percent: $percent) {
+      percent
+    }
   }
 `;
 
@@ -35,9 +42,11 @@ const BusinessLogin = (props) => {
   const [textPassword, setTextPassword] = useState("password");
   const [showPasswordState, setShowPasswordState] = useState(faEyeSlash);
   const [loginBusiness, { loading, error, data }] = useMutation(LOGIN);
+  const [fullnessPercentUpdate, { loading1, error1, data1 }] = useMutation(FULLNESS_PERCENT_UPDATE);
 
   if (loading) return <p>Loading</p>;
 
+  let percent =  '10';
   const onSubmit = (e) => {
     e.preventDefault();
     const response = loginBusiness({
@@ -47,6 +56,7 @@ const BusinessLogin = (props) => {
       .then(({}) => {
         window.location.reload();
         history.push("/mekan/profilim");
+        fullnessPercentUpdate({variables: { percent },})
       })
       .catch((err) => {
         alert("Lütfen giriş bilgilerinizi kontrol ediniz");
@@ -68,7 +78,7 @@ const BusinessLogin = (props) => {
 
   return (
     <div>
-      <Master />
+      <Header />
       <div className="text-center mt-5">
         <p
           className="text-center"

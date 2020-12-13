@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 // components
 import Header from "../components/header";
-import UserViewer from "../components/userViewer";
-
-import { useQuery, gql } from "@apollo/client";
 
 const Business = (props) => {
   let history = useHistory();

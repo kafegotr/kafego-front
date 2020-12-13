@@ -29,6 +29,7 @@ const Header = (props, req) => {
   const [logout, { loading1, data1 }] = useMutation(LOGOUT);
   const history = useHistory();
   const cookies = new Cookies();
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
   if (loading1) return <p>Loading1</p>;
@@ -103,12 +104,19 @@ const Header = (props, req) => {
             </li>
           </ul>
           <div
-            style={styles.inputWithButton}
+            //style={[ styles.inputWithButton, {display: 'none' }]}
+            style={{
+              borderRadius: "5px",
+              height: "2rem",
+              width: "15rem",
+              background: "white",
+              display: data.token.refreshToken ? 'block' : 'none',
+            }}
             className=""
           >
             <input
               //className="form-control"
-              style={ styles.searchInput }
+              style={styles.searchInput}
               type="search"
               placeholder="Hangi kafeye bakmıştın ?"
               aria-label="Search"
@@ -128,22 +136,22 @@ const Header = (props, req) => {
 };
 const styles = {
   inputWithButton: {
-    borderRadius: '5px',
-    height: '2rem',
-    width: '15rem',
-    background: 'white'
+    borderRadius: "5px",
+    height: "2rem",
+    width: "15rem",
+    background: "white",
   },
   searchButton: {
     background: "white",
     border: "none",
   },
   searchInput: {
-    outline: 'none',
-    border: 'none',
-    width: '13rem',
-    borderRadius: '5px',
-    paddingLeft: '10px',
-    paddingTop: '2px',
-  }
+    outline: "none",
+    border: "none",
+    width: "13rem",
+    borderRadius: "5px",
+    paddingLeft: "10px",
+    paddingTop: "2px",
+  },
 };
 export default Header;

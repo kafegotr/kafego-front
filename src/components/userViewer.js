@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { useQuery, gql } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
-import { createBrowserHistory } from "history";
 // discount code
 import discountCode from "../static/discount.json";
 
@@ -16,6 +15,7 @@ const GET_USERS = gql`
       password
       role
       photo
+      campaigns
       createdAt
       updatedAt
       deletedAt
@@ -87,6 +87,15 @@ const TOKEN = gql`
   }
 `;
 
+const ADDRESS_REGISTER = gql`
+  mutation($city: String, $county: String) {
+    addressRegister(city: $city, county: $county) {
+      city
+      county
+    }
+  }
+`;
+
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-restricted-globals */
@@ -102,6 +111,9 @@ const UserViewer = () => {
     const res6 = useQuery(TOKEN);
     return [res1, res2, res3, res4, res5, res6];
   };
+  const [addressRegister, { loading10, error10, data10 }] = useMutation(
+    ADDRESS_REGISTER
+  );
 
   const [
     { loading: loading1, error: error1, data: data1 },
@@ -130,6 +142,16 @@ const UserViewer = () => {
   if (loading6) return <p>Loading...</p>;
   if (error6) return <p>error</p>;
 
+  const addressRegisterFunc = () => {
+    let county = "Beşiktaş";
+    let city = "İstanbul";
+    if (data4.addresses === null) {
+      addressRegister({ variables: { city, county } });
+      return window.location.reload();
+    }
+  };
+  addressRegisterFunc();
+
   const getDiscountCode = () => {
     let discountCodeRead = discountCode.discount.code;
     localStorage.setItem("discount", discountCodeRead);
@@ -141,57 +163,26 @@ const UserViewer = () => {
       (address.county === data4.addresses.county) === true ? (
         data1.users.map((user, index) =>
           user.uuid === address.users_uuid && user.role === "business" ? (
-            <div className="container mt-5 d-flex">
-              <div className="card p-3">
-                <div className="d-flex align-items-center">
-                  <div className="image">
-                    {" "}
-                    <img
-                      src={user.photo}
-                      className="rounded"
-                      width="155"
-                    />{" "}
-                  </div>
-                  <div className="ml-3 w-100">
-                    <h4 className="mb-0 mt-0">{user.fullname}</h4>{" "}
-                    <span>{user.username}</span>
-                    <div className="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
-                      <div className="d-flex flex-column">
-                        {" "}
-                        <span className="articles">Doluluk Oranı</span>{" "}
-                        <div
-                          style={{
-                            width: "100px",
-                            height: "1rem",
-                            background: "black",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              //width: `${widthPercentState}px`,
-                              width: "100px",
-                              height: "1rem",
-                              background: "red",
-                              borderRadius: "5px",
-                            }}
-                          ></div>
-                        </div>
+            user.campaigns !== null ? (
+              <div className="container mt-5 d-flex">
+                <div className="card p-3">
+                  <div className="d-flex align-items-center">
+                    <div className="image">
+                      <img src={user.photo} className="rounded" width="155" />{" "}
+                    </div>
+                    <div className="ml-3 w-100">
+                      <h4 className="mb-0 mt-0">{user.fullname}</h4>{" "}
+                      <span>{user.username}</span>
+                      <div className="button mt-2 d-flex flex-row align-items-center">
+                        <a>{user.campaigns}</a>
                       </div>
-                    </div>
-                    <div className="button mt-2 d-flex flex-row align-items-center">
-                      <a href={user.address_direct}>Yol tarifi al</a>
-                    </div>
-                    <div className="button mt-2 d-flex flex-row align-items-center">
-                      {" "}
-                      <button className="btn btn-sm btn-outline-dark w-100">
-                        İndirim Kodu Al
-                      </button>{" "}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div></div>
+            )
           ) : (
             <div></div>
           )
@@ -223,10 +214,13 @@ const UserViewer = () => {
                         <div className="ml-3 w-100">
                           <h4 className="mb-0 mt-0">{user.fullname}</h4>{" "}
                           <button
+                            style={{
+                              borderRadius: '5px'
+                            }}
                             onClick={(e) => {
                               e.preventDefault();
-                              localStorage.setItem('cafe', user.username);
                               history.push(`/${user.username}`);
+                              window.location.reload();
                             }}
                           >
                             <span>{user.username}</span>
@@ -289,19 +283,16 @@ const UserViewer = () => {
       className="container"
       style={{
         marginBottom: "20rem",
+        height: "1000px",
       }}
     >
-      <div className="float-left">
+      <div className="overflow-auto float-left">
         <p className="float-right mt-2 mr-5">Tüm Mekanlar</p>
-       {
-        data6.token.refreshToken ? <AllAddress /> : <div></div>
-       } 
+        <AllAddress />
       </div>
       <div className="float-right">
         <p className="float-right mt-2 mr-5">Öne Çıkanlar</p>
-       {
-        data6.token.refreshToken ? <CampaingsComponent /> : <div></div>
-       } 
+        <CampaingsComponent />
       </div>
     </div>
   );

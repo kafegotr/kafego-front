@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom";
 const ADDRESS_REGISTER = gql`
   mutation($city: String, $county: String) {
     addressRegister(city: $city, county: $county) {
-       city
-       county
+      city
+      county
     }
   }
 `;
@@ -26,7 +26,9 @@ const Button = (props) => {
   countries["Ankara"] = "Kızılay|Akyurt|Çankaya";
   countries["Bursa"] = "Mudurnu|Gemlik";
 
-  const [addressRegister, { loading, error, data }] = useMutation(ADDRESS_REGISTER);
+  const [addressRegister, { loading, error, data }] = useMutation(
+    ADDRESS_REGISTER
+  );
   const history = useHistory();
 
   useEffect(() => {
@@ -42,7 +44,7 @@ const Button = (props) => {
   const selectF = () => {
     let a = document.getElementById("region");
     var region = a[a.selectedIndex].text;
-    localStorage.setItem('il', region);
+    localStorage.setItem("il", region);
     let ac = document.getElementById("country");
     if (countries[region]) {
       ac.disabled = false;
@@ -51,30 +53,39 @@ const Button = (props) => {
       for (var i = 0; i < countryArr.length; i++)
         ac.options[i + 1] = new Option(countryArr[i], countryArr[i]);
     } else ac.disabled = true;
-  }
+  };
 
   const selectCountry = (props) => {
     let ac = document.getElementById("country");
     var county = ac.options[ac.selectedIndex].text;
-    let city = localStorage.getItem('il');
+    let city = localStorage.getItem("il");
     const response = addressRegister({
-        variables: { city, county },
+      variables: { city, county },
     });
-      response
-        .then(({}) => {
-            alert('Adres yenilcendi');
-            history.push('/');
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-  }
+    response
+      .then(({}) => {
+        alert("Adres yenilendi");
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
       <div>
         <form>
           <select
+            style={{
+              width: "5rem",
+              height: "1.5rem",
+              borderRadius: "5px",
+              background: "yellow",
+              border: "none",
+              fontWeight: "600",
+              color: "white",
+            }}
             id="region"
             onChange={selectF}
           >
@@ -82,11 +93,19 @@ const Button = (props) => {
           </select>
 
           <select
+            style={{
+              width: "5rem",
+              height: "1.5rem",
+              borderRadius: "5px",
+              background: "yellow",
+              border: "none",
+              fontWeight: "600",
+              color: "white",
+            }}
             id="country"
             disabled="disabled"
             onChange={selectCountry}
           ></select>
-
         </form>
       </div>
     </div>
