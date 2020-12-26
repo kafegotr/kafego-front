@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
+import React from "react";
 import "../App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

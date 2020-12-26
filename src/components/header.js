@@ -25,6 +25,7 @@ const TOKEN = gql`
 
 const Header = (props, req) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [search, setSearch] = useState('');
   const { loading, error, data } = useQuery(TOKEN);
   const [logout, { loading1, data1 }] = useMutation(LOGOUT);
   const history = useHistory();
@@ -104,7 +105,6 @@ const Header = (props, req) => {
             </li>
           </ul>
           <div
-            //style={[ styles.inputWithButton, {display: 'none' }]}
             style={{
               borderRadius: "5px",
               height: "2rem",
@@ -115,16 +115,19 @@ const Header = (props, req) => {
             className=""
           >
             <input
-              //className="form-control"
               style={styles.searchInput}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               type="search"
               placeholder="Hangi kafeye bakmıştın ?"
               aria-label="Search"
             ></input>
             <button
-              //className="btn btn-outline-success my-2 my-sm-0"
               type="submit"
               style={styles.searchButton}
+              onClick={() => {
+                  history.push(`/${search}`);
+              }}
             >
               <FontAwesomeIcon icon={faSearch} />
             </button>

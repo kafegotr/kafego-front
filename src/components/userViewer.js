@@ -219,8 +219,9 @@ const UserViewer = () => {
                             }}
                             onClick={(e) => {
                               e.preventDefault();
+                              localStorage.setItem("cafe", user.username);
                               history.push(`/${user.username}`);
-                              window.location.reload();
+                              //window.location.reload();
                             }}
                           >
                             <span>{user.username}</span>

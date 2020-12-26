@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useQuery, gql, useMutation } from "@apollo/client";
 //
-import Authorization from "../apollo/isAuth";
 import Button from "./button";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,7 +50,7 @@ const MeViewer = () => {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   //
-  const [login, { loading, error, data }] = useMutation(LOGIN);
+  const [login, { data }] = useMutation(LOGIN);
   const queryMultiple = () => {
     const res1 = useQuery(GET_USERS);
     const res2 = useQuery(TOKEN);
@@ -158,7 +157,7 @@ const MeViewer = () => {
                       border: "none",
                       marginLeft: '5rem',
                       marginTop: '-4px',
-                      display: discount !== null ? 'block' : 'none' 
+                      display: discount !== null ? 'block' : 'none'
                     }}
                     onClick={removeDiscountCode}
                     className="float-right"

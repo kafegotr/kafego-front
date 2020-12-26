@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
 import { createBrowserHistory } from "history";
+import { useHistory } from "react-router-dom";
 // layouts
 import Home from "./layouts/home";
 import Login from "./layouts/login";
@@ -58,6 +59,7 @@ const GET_USERS = gql`
 `;
 
 const App = (props) => {
+  const history = useHistory();
   const match = useRouteMatch("/:username");
   const queryMultiple = () => {
     const res1 = useQuery(GET_USERS);
@@ -82,6 +84,7 @@ const App = (props) => {
       return null;
     } else {
       urlInputControl = match.params.username;
+      console.log(urlInputControl);
     }
   };
   urlInputControltFunc();
@@ -89,7 +92,8 @@ const App = (props) => {
   const getProfileControl = (props) => {
     data1.users.map((user, index) => {
       if (user.username === urlInputControl && user.role === "business") {
-        return localStorage.setItem("cafe", user.username);
+        localStorage.setItem("cafe", user.username);
+          // history.push(`/${user.username}`)
       } else {
         return null;
       }
