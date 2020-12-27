@@ -127,6 +127,7 @@ const Header = (props, req) => {
               style={styles.searchButton}
               onClick={() => {
                   history.push(`/${search}`);
+                  window.location.reload();
               }}
             >
               <FontAwesomeIcon icon={faSearch} />
